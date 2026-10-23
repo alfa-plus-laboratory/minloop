@@ -1,0 +1,62 @@
+{
+ "run_id": "hello",
+ "session": 1,
+ "step": 7,
+ "charter": {
+  "mission": "Read the meeting notes under notes/ in the workspace and write summary.md: one line per note with its main point, then a section 'Contradictions' that lists any statements in different notes that cannot both be true.",
+  "constraints": [
+   "Work only inside the workspace.",
+   "Do not modify the files under notes/."
+  ],
+  "tools": [
+   "fs_list",
+   "fs_read",
+   "fs_write",
+   "finish",
+   "give_up",
+   "ask_human",
+   "propose_charter_change"
+  ],
+  "budget": {
+   "max_steps": 12,
+   "max_tokens": 120000
+  },
+  "stop": {
+   "no_progress_steps": 4
+  },
+  "workspace": "workspace"
+ },
+ "goals": {
+  "items": {
+   "g1": {
+    "id": "g1",
+    "text": "Write summary.md with one line per note and a Contradictions section",
+    "criteria": [
+     "summary.md exists in the workspace",
+     "summary.md has one line for each file under notes/",
+     "summary.md has a 'Contradictions' section naming every conflicting pair of statements"
+    ],
+    "source": "self",
+    "status": "done",
+    "parent": null,
+    "step": 0,
+    "result": "1) summary.md exists: fs_write reported writing it. 2) It has one line for each of monday.md, tuesday.md and wednesday.md. 3) Its Contradictions section names the Friday 14:00 vs Thursday 10:00 demo conflict, the only conflict found."
+   }
+  },
+  "stack": [],
+  "queue": []
+ },
+ "seen": [
+  "ee1d5e804e8b744686734c7e99cc141628452e49b8a38f1e1a76a936efc1ead1",
+  "bd1378896b4a2b8a98713fd531f474071b3b286b691b0388fc49fb0cb1c993dd",
+  "6acc2a3bb365fa6dbe35d3e6aa5824eb3202463b1f4f484aa0c7e7195d42a6e1",
+  "ca8b97c31161c4559d0addbccf5975c00348acee26623143f64f82e046c0081c",
+  "98bbea0644851ac43c112e3027c8dadafb22fd74c4f22187312e69f479c10754",
+  "75b069a136b8f4cfeab063c8324321769b62d681298cfee609e0bfd03851531d",
+  "8e01e4810f1c3d70d83d6efa34eacefdeedec64c8942e4e15e8198365a14ce4b"
+ ],
+ "no_progress": 0,
+ "failures": 0,
+ "notes": "notes.jsonl",
+ "last_stop": "done"
+}

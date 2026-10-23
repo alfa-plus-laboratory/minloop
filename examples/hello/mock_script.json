@@ -1,0 +1,206 @@
+{
+ "goal": [
+  {
+   "goals": [
+    {
+     "text": "Write summary.md with one line per note and a Contradictions section",
+     "criteria": [
+      "summary.md exists in the workspace",
+      "summary.md has one line for each file under notes/",
+      "summary.md has a 'Contradictions' section naming every conflicting pair of statements"
+     ]
+    }
+   ],
+   "mission_complete": false,
+   "reason": "Nothing has been done yet."
+  },
+  {
+   "goals": [],
+   "mission_complete": true,
+   "reason": "summary.md was written and checked against every criterion; the mission is accomplished."
+  }
+ ],
+ "plan": [
+  {
+   "intent": "Find out which notes exist",
+   "tool": "fs_list",
+   "args": {
+    "path": "notes"
+   },
+   "expected": "A few markdown files, one per meeting",
+   "confidence": 0.7,
+   "unknowns": [
+    "how many notes there are"
+   ],
+   "recall": []
+  },
+  {
+   "intent": "Read the first note",
+   "tool": "fs_read",
+   "args": {
+    "path": "notes/monday.md"
+   },
+   "expected": "Bullet points from the Monday meeting",
+   "confidence": 0.85,
+   "unknowns": [],
+   "recall": []
+  },
+  {
+   "intent": "Read the second note",
+   "tool": "fs_read",
+   "args": {
+    "path": "notes/tuesday.md"
+   },
+   "expected": "Bullet points from the Tuesday meeting",
+   "confidence": 0.85,
+   "unknowns": [],
+   "recall": []
+  },
+  {
+   "intent": "Check which demo time is right",
+   "tool": "ask_human",
+   "args": {
+    "question": "monday.md says the demo is on Friday 14:00, tuesday.md says Thursday 10:00. Which one is correct?"
+   },
+   "expected": "No answer: this run is fully autonomous",
+   "confidence": 0.95,
+   "unknowns": [
+    "which demo time is correct"
+   ],
+   "recall": []
+  },
+  {
+   "intent": "Read the third note",
+   "tool": "fs_read",
+   "args": {
+    "path": "notes/wednesday.md"
+   },
+   "expected": "Bullet points from the Wednesday meeting",
+   "confidence": 0.85,
+   "unknowns": [],
+   "recall": []
+  },
+  {
+   "intent": "Write the summary",
+   "tool": "fs_write",
+   "args": {
+    "path": "summary.md",
+    "content": "# Summary\n\n- monday.md: the demo moves to Friday 14:00; Alice prepares the slides; Bob cleans the dataset.\n- tuesday.md: Bob finished the dataset (1,204 rows); the demo is said to be on Thursday 10:00.\n- wednesday.md: Alice's slides are drafted; a projector is still needed for the demo room.\n\n## Contradictions\n\n- Demo time: monday.md says Friday 14:00, tuesday.md says Thursday 10:00 \"as planned\". Nobody was available to confirm which one is right.\n"
+   },
+   "expected": "The file is written",
+   "confidence": 0.95,
+   "unknowns": [],
+   "recall": []
+  },
+  {
+   "intent": "Close the goal",
+   "tool": "finish",
+   "args": {
+    "check": "1) summary.md exists: fs_write reported writing it. 2) It has one line for each of monday.md, tuesday.md and wednesday.md. 3) Its Contradictions section names the Friday 14:00 vs Thursday 10:00 demo conflict, the only conflict found."
+   },
+   "expected": "The goal is marked done",
+   "confidence": 0.9,
+   "unknowns": [],
+   "recall": []
+  }
+ ],
+ "reflect": [
+  {
+   "met_expectation": true,
+   "surprise": 0.1,
+   "lesson": "There are three notes: monday.md, tuesday.md, wednesday.md.",
+   "goal_action": "keep",
+   "calibration": "Confidence was about right."
+  },
+  {
+   "met_expectation": true,
+   "surprise": 0.05,
+   "lesson": "Monday: the demo moved to Friday 14:00; Alice does the slides; Bob cleans the data.",
+   "goal_action": "keep",
+   "calibration": "Confidence was about right."
+  },
+  {
+   "met_expectation": true,
+   "surprise": 0.8,
+   "lesson": "Tuesday says the demo is on Thursday 10:00, which contradicts Monday's Friday 14:00.",
+   "goal_action": "keep",
+   "calibration": "The format was as expected, but I did not anticipate a contradiction."
+  },
+  {
+   "met_expectation": true,
+   "surprise": 0.0,
+   "lesson": "Nobody can confirm the date, so the summary should report the conflict instead of choosing a side.",
+   "goal_action": "keep",
+   "calibration": "Confidence was about right."
+  },
+  {
+   "met_expectation": true,
+   "surprise": 0.05,
+   "lesson": "Wednesday: the slides are drafted and a projector is still needed.",
+   "goal_action": "keep",
+   "calibration": "Confidence was about right."
+  },
+  {
+   "met_expectation": true,
+   "surprise": 0.05,
+   "lesson": "summary.md is written.",
+   "goal_action": "keep",
+   "calibration": "Confidence was about right."
+  },
+  {
+   "met_expectation": true,
+   "surprise": 0.0,
+   "lesson": "The goal was closed after checking each criterion.",
+   "goal_action": "keep",
+   "calibration": "Confidence was about right."
+  }
+ ],
+ "deep": [
+  {
+   "summary": "Two notes disagree about the demo time.",
+   "notes": [
+    {
+     "kind": "world",
+     "title": "Demo time conflict",
+     "text": "monday.md says the demo is on Friday 14:00; tuesday.md says Thursday 10:00.",
+     "confidence": 0.95,
+     "tags": [
+      "demo",
+      "contradiction"
+     ]
+    }
+   ],
+   "supersede": []
+  },
+  {
+   "summary": "Halfway check: all notes are read except one; the conflict cannot be resolved by asking.",
+   "notes": [
+    {
+     "kind": "self",
+     "title": "Nobody resolves conflicts for me",
+     "text": "ask_human gets no answer in autonomous runs; when sources conflict I should report the conflict instead of picking a side.",
+     "confidence": 0.9,
+     "tags": [
+      "ask_human"
+     ]
+    }
+   ],
+   "supersede": []
+  },
+  {
+   "summary": "The summary goal is done; each criterion was checked against observations.",
+   "notes": [
+    {
+     "kind": "skill",
+     "title": "Short notes fit in one read",
+     "text": "Each note was under 200 characters, so one fs_read per file was enough.",
+     "confidence": 0.8,
+     "tags": [
+      "fs_read"
+     ]
+    }
+   ],
+   "supersede": []
+  }
+ ]
+}

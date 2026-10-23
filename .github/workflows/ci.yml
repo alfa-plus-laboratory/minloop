@@ -1,0 +1,23 @@
+name: ci
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install pytest
+      - run: pytest -q
+      - name: replay the bundled recording without an API key
+        run: PYTHONPATH=src python -m minloop replay examples/recorded/hello/trace.jsonl --rerun --root ci-runs --quiet
+      - name: run the probes offline (scripted mock agents, mock judge, replay)
+        run: PYTHONPATH=src python -m probes demo --judge mock --replay --quiet --root ci-probes
+      - name: reproduce the committed mock experiment results
+        run: PYTHONPATH=src python -m experiments check experiments/results-mock.json --root ci-runs
