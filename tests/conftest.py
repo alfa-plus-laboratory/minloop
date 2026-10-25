@@ -14,6 +14,13 @@ from minloop.llm import MockLLM  # noqa: E402
 HELLO = ROOT / "examples" / "hello"
 
 
+def pytest_configure(config):
+    # pytest creates --basetemp (runs/pytest, see pyproject.toml) without its parents; runs/ is git-ignored, so a
+    # fresh clone does not have it
+    if config.option.basetemp:
+        Path(config.option.basetemp).resolve().parent.mkdir(parents=True, exist_ok=True)
+
+
 def hello_charter(**changes) -> dict:
     charter = json.loads((HELLO / "charter.json").read_text(encoding="utf-8"))
     charter.update(changes)

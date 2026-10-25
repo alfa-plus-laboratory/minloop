@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "minloop"
-version = "0.1.0.dev0"
+version = "0.1.0"
 description = "A minimal fully autonomous agent loop (goal, plan, act, observe, reflect) with an append-only JSONL trace."
 readme = "README.md"
 license = {text = "Apache-2.0"}
